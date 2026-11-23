@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Your cart</h2>
+    {% for item in items %}
+        <p>
+            {{ item.product.name }} x {{ item.quantity }}
+            = KES {{ item.subtotal }}
+            <form method="post" action="{% url 'remove_from_cart' item.product.id %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit">Remove</button>
+            </form>
+        </p>
+    {% empty %}
+        <p>Your cart is empty.</p>
+    {% endfor %}
+    {% if items %}
+        <h3>Total: KES {{ total }}</h3>
+    {% endif %}
+{% endblock %}

@@ -5,8 +5,14 @@
     <a href="{% url 'add_product' %}">Add product</a>
     <ul>
         {% for p in products %}
-            <li>{{ p.name }} - KES {{ p.price }} (stock: {{ p.stock }})</li>
-        {% empty %}
+    <li>
+    {{ p.name }} - KES {{ p.price }} (stock: {{ p.stock }})
+    <form method="post" action="{% url 'add_to_cart' p.id %}" style="display:inline">
+        {% csrf_token %}
+        <button type="submit">Add to cart</button>
+    </form>
+    </li>
+    {% empty %}
             <li>No products yet.</li>
         {% endfor %}
     </ul>
