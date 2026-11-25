@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Welcome to our shop. Products coming soon.</p>
+    <section class="hero">
+        <p class="eyebrow">Modest fashion &amp; lifestyle</p>
+        <h1>Elegance in every detail</h1>
+        <p>Discover thoughtfully chosen pieces for you and your home.</p>
+        <a class="btn" href="{% url 'product_list' %}">Shop now</a>
+    </section>
+
+    <section class="quote">
+        <p class="turkish">&ldquo;Güzellik sadelikte gizlidir.&rdquo;</p>
+        <p class="translation">Beauty is hidden in simplicity.</p>
+    </section>
 {% endblock %}

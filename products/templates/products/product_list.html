@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Products</h2>
-    <a href="{% url 'add_product' %}">Add product</a>
-    <ul>
+    <div class="page-head page-title">
+        <h2>Products</h2>
+        <a class="btn btn-outline" href="{% url 'add_product' %}">Add product</a>
+    </div>
+    <div class="grid">
         {% for p in products %}
-    <li>
-    {{ p.name }} - KES {{ p.price }} (stock: {{ p.stock }})
-    <form method="post" action="{% url 'add_to_cart' p.id %}" style="display:inline">
-        {% csrf_token %}
-        <button type="submit">Add to cart</button>
-    </form>
-    </li>
-    {% empty %}
-            <li>No products yet.</li>
+            <article class="card">
+                <div class="card-img">{{ p.name|first|upper }}</div>
+                <div class="card-body">
+                    <h3>{{ p.name }}</h3>
+                    <p class="price">KES {{ p.price }}</p>
+                    <p class="stock">{% if p.stock > 0 %}In stock{% else %}Out of stock{% endif %}</p>
+                    <form method="post" action="{% url 'add_to_cart' p.id %}">
+                        {% csrf_token %}
+                        <button type="submit" {% if p.stock == 0 %}disabled{% endif %}>Add to cart</button>
+                    </form>
+                </div>
+            </article>
+        {% empty %}
+            <p>No products yet.</p>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
