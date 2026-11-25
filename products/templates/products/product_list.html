@@ -2,15 +2,48 @@
 
 {% block content %}
     <div class="page-head page-title">
-        <h2>Products</h2>
+        <h2>{% if category %}{{ category.name }}{% else %}All products{% endif %}</h2>
         <a class="btn btn-outline" href="{% url 'add_product' %}">Add product</a>
     </div>
+
+    {% if category.parent %}
+        <p><a href="{% url 'category' category.parent.slug %}">&larr; {{ category.parent.name }}</a></p>
+    {% endif %}
+    {% if subcategories %}
+        <div class="chips">
+            {% for sub in subcategories %}
+                <a class="chip" href="{% url 'category' sub.slug %}">{{ sub.name }}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form class="filters" method="get">
+        <label>Search
+            <input type="text" name="q" value="{{ q }}">
+        </label>
+        <label>Min price
+            <input type="number" name="min_price" value="{{ min_price }}" min="0">
+        </label>
+        <label>Max price
+            <input type="number" name="max_price" value="{{ max_price }}" min="0">
+        </label>
+        <label>Sort by
+            <select name="sort">
+                <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+                <option value="price_low" {% if sort == 'price_low' %}selected{% endif %}>Price: low to high</option>
+                <option value="price_high" {% if sort == 'price_high' %}selected{% endif %}>Price: high to low</option>
+            </select>
+        </label>
+        <button type="submit">Apply</button>
+    </form>
+
     <div class="grid">
         {% for p in products %}
             <article class="card">
                 <div class="card-img">{{ p.name|first|upper }}</div>
                 <div class="card-body">
-                    <h3>{{ p.name }}</h3>
+                    {% if p.category %}<p class="eyebrow">{{ p.category.name }}</p>{% endif %}
+                    <h3><a href="{% url 'product_detail' p.id %}">{{ p.name }}</a></h3>
                     <p class="price">KES {{ p.price }}</p>
                     <p class="stock">{% if p.stock > 0 %}In stock{% else %}Out of stock{% endif %}</p>
                     <form method="post" action="{% url 'add_to_cart' p.id %}">
@@ -20,7 +53,7 @@
                 </div>
             </article>
         {% empty %}
-            <p>No products yet.</p>
+            <p>No products found. <a href="{% url 'product_list' %}">Clear filters</a></p>
         {% endfor %}
     </div>
 {% endblock %}

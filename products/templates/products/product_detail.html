@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p class="breadcrumb">
+        <a href="{% url 'product_list' %}">Products</a>
+        {% if product.category.parent %}
+            &rsaquo; <a href="{% url 'category' product.category.parent.slug %}">{{ product.category.parent.name }}</a>
+        {% endif %}
+        {% if product.category %}
+            &rsaquo; <a href="{% url 'category' product.category.slug %}">{{ product.category.name }}</a>
+        {% endif %}
+    </p>
+
+    <div class="detail">
+        <div class="detail-img">{{ product.name|first|upper }}</div>
+        <div>
+            <h2>{{ product.name }}</h2>
+            <p class="price detail-price">KES {{ product.price }}</p>
+            <p class="stock">{% if product.stock > 0 %}In stock ({{ product.stock }} available){% else %}Out of stock{% endif %}</p>
+            <p>{{ product.description }}</p>
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                {% csrf_token %}
+                <button type="submit" {% if product.stock == 0 %}disabled{% endif %}>Add to cart</button>
+            </form>
+        </div>
+    </div>
+
+    {% if related %}
+        <h3 class="section-title">You may also like</h3>
+        <div class="grid">
+            {% for p in related %}
+                <article class="card">
+                    <div class="card-img">{{ p.name|first|upper }}</div>
+                    <div class="card-body">
+                        <h3><a href="{% url 'product_detail' p.id %}">{{ p.name }}</a></h3>
+                        <p class="price">KES {{ p.price }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -36,6 +36,11 @@
         </nav>
     </header>
 
+    <nav class="category-bar">
+    {% for c in nav_categories %}
+        <a href="{% url 'category' c.slug %}">{{ c.name }}</a>
+    {% endfor %}
+</nav>
     <main class="container">
         {% block content %}{% endblock %}
     </main>
