@@ -110,7 +110,7 @@ a { color: var(--blue-deep); }
 .menu-button { display: none; margin-left: auto; font-size: 1.6rem; cursor: pointer; padding: 4px 8px; }
 
 /* ---------- layout, buttons, forms ---------- */
-.container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; width: 100%; flex: 1; }
+.container { max-width:  1240px; margin: 0 auto; padding: 32px 20px; width: 100%; flex: 1; }
 
 .btn, button {
     background: var(--navy);
@@ -223,8 +223,28 @@ form p { margin: 0 0 14px; }
 .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; }
 .summary-row.total { border-top: 1px solid var(--line); padding-top: 12px; }
 
-.site-footer { background: var(--navy); color: var(--ivory); text-align: center; padding: 28px 20px; margin-top: 0; }
-
+.site-footer { background: var(--navy); color: var(--ivory); padding: 48px 32px 24px; margin-top: 0; }
+.footer-grid { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.footer-brand { font-family: 'Playfair Display', serif; letter-spacing: 0.18em; font-size: 1.3rem; margin: 0 0 8px; }
+.footer-text { color: var(--blue); max-width: 320px; margin: 0; font-size: 0.92rem; }
+.site-footer h4 {
+    margin: 0 0 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+.site-footer a { display: block; color: var(--ivory); text-decoration: none; padding: 3px 0; font-size: 0.92rem; }
+.site-footer a:hover { color: var(--blue); }
+.footer-bottom {
+    max-width:  1240px;
+    margin: 32px auto 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(250, 246, 238, 0.2);
+    font-size: 0.85rem;
+    color: var(--blue);
+}
 /* ---------- responsive ---------- */
 .section { margin-top: 56px; }
 .section-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
@@ -279,6 +299,65 @@ form p { margin: 0 0 14px; }
 
 .intro { text-align: center; max-width: 640px; margin: 56px auto 0; }
 
+.inspiration {
+    background: var(--ivory);
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    text-align: center;
+    padding: 56px 24px 40px;
+    margin-top: 56px;
+}
+.inspiration .eyebrow::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    margin: 14px auto 0;
+}
+.slides { display: grid; max-width: 720px; margin: 24px auto 0; min-height: 110px; }
+.slide {
+    grid-area: 1 / 1;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.slide.is-active { opacity: 1; visibility: visible; }
+.slide blockquote {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    color: var(--navy);
+}
+.slide figcaption { margin-top: 10px; color: var(--gold); font-size: 0.95rem; letter-spacing: 0.04em; }
+
+.q-controls { display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 24px; }
+.q-btn {
+    background: transparent;
+    color: var(--navy);
+    border: 1px solid var(--line);
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.q-btn:hover { background: var(--blue-soft); color: var(--navy); border-color: var(--blue-deep); }
+.q-dots { display: flex; gap: 8px; }
+.q-dot { width: 8px; height: 8px; padding: 0; border-radius: 50%; background: var(--line); border: none; }
+.q-dot:hover { background: var(--blue); }
+.q-dot.is-active { background: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+    .slide { transition: none; }
+}
+
 @media (max-width: 900px) {
     .site-header { flex-wrap: wrap; padding: 8px 16px; gap: 0; }
     .menu-button { display: block; }
@@ -297,6 +376,7 @@ form p { margin: 0 0 14px; }
     .main-nav > a, .mega-trigger { padding: 8px 0; }
     .cart-layout { grid-template-columns: 1fr; }
     .detail { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {
