@@ -19,10 +19,35 @@
                 <span class="brand-sub">Online Stores</span>
             </span>
         </a>
-        <nav>
+
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+        <label for="menu-toggle" class="menu-button" aria-label="Open menu">&#9776;</label>
+
+        <nav class="main-nav" aria-label="Main">
             <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'product_list' %}">Products</a>
-            <a href="{% url 'cart_detail' %}">Cart</a>
+            <div class="has-mega">
+                <a class="mega-trigger" href="{% url 'product_list' %}">Shop</a>
+                <div class="mega">
+                    {% for g in menu_groups %}
+                        <div class="mega-col">
+                            <h4>{{ g.title }}</h4>
+                            {% for c in g.categories %}
+                                <a href="{% url 'category' c.slug %}">{{ c.name }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <div class="mega-foot">
+                        <a class="mega-all" href="{% url 'product_list' %}">View all products &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <form class="search" method="get" action="{% url 'product_list' %}">
+            <input type="search" name="q" placeholder="Search products" aria-label="Search products">
+        </form>
+
+        <div class="header-actions">
             {% if user.is_authenticated %}
                 <span class="nav-user">Hello, {{ user.username }}</span>
                 <form method="post" action="{% url 'logout' %}">
@@ -33,14 +58,12 @@
                 <a href="{% url 'login' %}">Log in</a>
                 <a href="{% url 'register' %}">Register</a>
             {% endif %}
-        </nav>
+            <a class="cart-link" href="{% url 'cart_detail' %}">
+                Cart <span class="cart-badge">{{ cart_count }}</span>
+            </a>
+        </div>
     </header>
 
-    <nav class="category-bar">
-    {% for c in nav_categories %}
-        <a href="{% url 'category' c.slug %}">{{ c.name }}</a>
-    {% endfor %}
-</nav>
     <main class="container">
         {% block content %}{% endblock %}
     </main>

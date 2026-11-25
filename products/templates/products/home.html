@@ -1,15 +1,65 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <section class="hero">
-        <p class="eyebrow">Modest fashion &amp; lifestyle</p>
-        <h1>Elegance in every detail</h1>
-        <p>Discover thoughtfully chosen pieces for you and your home.</p>
-        <a class="btn" href="{% url 'product_list' %}">Shop now</a>
+    <section class="hero-split">
+        <div class="hero-copy">
+            <p class="eyebrow">Modest fashion &amp; Muslim lifestyle</p>
+            <h1>Elegance in Every Detail</h1>
+            <p>Discover thoughtfully curated modest fashion, fragrances and lifestyle essentials.</p>
+            <a class="btn" href="{% url 'product_list' %}">Explore Collections</a>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/hero.jpg' %}" alt="" onerror="this.remove()">
+        </div>
     </section>
+
+    {% if featured_categories %}
+    <section class="section">
+        <div class="section-head">
+            <h2>Shop by Collection</h2>
+            <a href="{% url 'product_list' %}">View all collections &rarr;</a>
+        </div>
+        <div class="tiles">
+            {% for c in featured_categories %}
+                <a class="tile" href="{% url 'category' c.slug %}">
+                    <span class="tile-letter">{{ c.name|first }}</span>
+                    <img src="{% static 'images/categories/'|add:c.slug|add:'.jpg' %}" alt="" onerror="this.remove()">
+                    <span class="tile-name">{{ c.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if featured %}
+    <section class="section">
+        <div class="section-head"><h2>Featured Products</h2></div>
+        <div class="grid">
+            {% for p in featured %}{% include 'products/_product_card.html' %}{% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if new_arrivals %}
+    <section class="section">
+        <div class="section-head">
+            <h2>New Arrivals</h2>
+            <a href="{% url 'product_list' %}">Shop all &rarr;</a>
+        </div>
+        <div class="grid">
+            {% for p in new_arrivals %}{% include 'products/_product_card.html' %}{% endfor %}
+        </div>
+    </section>
+    {% endif %}
 
     <section class="quote">
         <p class="turkish">&ldquo;Güzellik sadelikte gizlidir.&rdquo;</p>
         <p class="translation">Beauty is hidden in simplicity.</p>
+    </section>
+
+    <section class="intro">
+        <h2>Welcome to Sakina</h2>
+        <p>Sakina brings modest fashion, fragrance and everyday lifestyle essentials together in one calm, easy place to shop.</p>
     </section>
 {% endblock %}

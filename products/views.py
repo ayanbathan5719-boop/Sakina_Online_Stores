@@ -17,7 +17,14 @@ def product_detail(request, product_id):
     })
 
 def home(request):
-    return render(request, 'products/home.html')
+    wanted = ["Modest Fashion", "Hijabs and Headwear", "Perfumes and Fragrance",
+              "Islamic Essentials", "Bags and Accessories", "Gifts and Special Collections"]
+    tops = {c.name: c for c in Category.objects.filter(parent__isnull=True, name__in=wanted)}
+    return render(request, 'products/home.html', {
+        'featured_categories': [tops[n] for n in wanted if n in tops],
+        'featured': Product.objects.filter(is_featured=True)[:4],
+        'new_arrivals': Product.objects.order_by('-created_at')[:4],
+    })
 
 
 def to_decimal(value):

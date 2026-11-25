@@ -1,0 +1,13 @@
+<article class="card">
+    <div class="card-img">{{ p.name|first|upper }}</div>
+    <div class="card-body">
+        {% if p.category %}<p class="eyebrow">{{ p.category.name }}</p>{% endif %}
+        <h3><a href="{% url 'product_detail' p.id %}">{{ p.name }}</a></h3>
+        <p class="price">KES {{ p.price }}</p>
+        <p class="stock">{% if p.stock > 0 %}In stock{% else %}Out of stock{% endif %}</p>
+        <form method="post" action="{% url 'add_to_cart' p.id %}">
+            {% csrf_token %}
+            <button type="submit" {% if p.stock == 0 %}disabled{% endif %}>Add to cart</button>
+        </form>
+    </div>
+</article>
