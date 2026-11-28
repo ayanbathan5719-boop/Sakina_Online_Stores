@@ -3,16 +3,14 @@
 
 {% block content %}
     <section class="hero-split">
-        <div class="hero-copy">
-            <p class="eyebrow">Modest fashion &amp; Muslim lifestyle</p>
-            <h1>Elegance in Every Detail</h1>
-            <p>Discover thoughtfully curated modest fashion, fragrances and lifestyle essentials.</p>
-            <a class="btn" href="{% url 'product_list' %}">Explore Collections</a>
-        </div>
-        <div class="hero-image">
-    <img src="{% static 'images/hero.jpg' %}" alt="Sakina Online Stores modest fashion collection">
-</div>
-    </section>
+    <div class="hero-copy">
+        <p class="eyebrow">Modest fashion &amp; Muslim lifestyle</p>
+        <h1>Elegance in Every Detail</h1>
+        <p>Discover thoughtfully curated modest fashion, fragrances and lifestyle essentials.</p>
+        <a class="btn" href="{% url 'product_list' %}">Explore Collections</a>
+    </div>
+    <div class="hero-image"></div>
+</section>
 
     {% if featured_categories %}
     <section class="section">
