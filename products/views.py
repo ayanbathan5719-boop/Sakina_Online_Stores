@@ -6,6 +6,7 @@ from .forms import ProductForm
 from .models import Product, Category
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.http import JsonResponse
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -103,3 +104,19 @@ def delete_product(request, product_id):
         messages.success(request, 'Product deleted.')
         return redirect('product_list')
     return render(request, 'products/product_confirm_delete.html', {'product': product})
+def product_api(request):
+    products = Product.objects.all()
+
+    if request.GET.get('in_stock') == '1':
+        products = products.filter(stock__gt=0)
+
+    data = [
+        {
+            'id': p.id,
+            'name': p.name,
+            'price': float(p.price),
+            'stock': p.stock,
+        }
+        for p in products
+    ]
+    return JsonResponse({'count': len(data), 'products': data})
