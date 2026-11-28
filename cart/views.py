@@ -15,8 +15,12 @@ def cart_detail(request):
     cart = request.session.get('cart', {})
     items = []
     total = 0
-    for product_id, quantity in cart.items():
-        product = get_object_or_404(Product, id=product_id)
+    for product_id, quantity in list(cart.items()):
+        product = Product.objects.filter(id=product_id).first()
+        if product is None:
+            cart.pop(product_id)
+            request.session['cart'] = cart
+            continue
         subtotal = product.price * quantity
         total += subtotal
         items.append({'product': product, 'quantity': quantity, 'subtotal': subtotal})

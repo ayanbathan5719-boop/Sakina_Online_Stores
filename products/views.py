@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ProductForm
 from .models import Product, Category
+from django.contrib import messages
 
 
 def product_detail(request, product_id):
@@ -69,14 +70,36 @@ def product_list(request, slug=None):
         'sort': sort,
     })
 
-
 @login_required
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Product added.')
             return redirect('product_list')
     else:
         form = ProductForm()
-    return render(request, 'products/add_product.html', {'form': form})
+    return render(request, 'products/product_form.html', {'form': form, 'title': 'Add product'})
+@login_required
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product updated.')
+            return redirect('product_detail', product_id=product.id)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'products/product_form.html', {'form': form, 'title': 'Edit product'})
+
+
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.method == 'POST':
+        product.delete()
+        messages.success(request, 'Product deleted.')
+        return redirect('product_list')
+    return render(request, 'products/product_confirm_delete.html', {'product': product})

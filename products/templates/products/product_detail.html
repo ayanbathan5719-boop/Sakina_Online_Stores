@@ -22,6 +22,9 @@
                 {% csrf_token %}
                 <button type="submit" {% if product.stock == 0 %}disabled{% endif %}>Add to cart</button>
             </form>
+            {% if user.is_authenticated %}
+    <p class="manage"><a href="{% url 'edit_product' product.id %}">Edit</a> &middot;      <a href="{% url 'delete_product' product.id %}">Delete</a></p>
+           {% endif %}
         </div>
     </div>
 

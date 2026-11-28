@@ -354,6 +354,11 @@ form p { margin: 0 0 14px; }
 .q-dot:hover { background: var(--blue); }
 .q-dot.is-active { background: var(--gold); }
 
+.messages { list-style: none; padding: 0; margin: 0 0 20px; }
+.message { background: var(--blue-soft); border-left: 3px solid var(--blue-deep); padding: 10px 14px; border-radius: 2px; }
+.message.error { border-left-color: #b3483f; background: #fbeeee; }
+.manage { margin-top: 16px; font-size: 0.9rem; }
+
 @media (prefers-reduced-motion: reduce) {
     .slide { transition: none; }
 }
