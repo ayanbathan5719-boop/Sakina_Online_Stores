@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProductForm
 from .models import Product, Category
 from django.contrib import messages
-
+from django.contrib.admin.views.decorators import staff_member_required
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -70,7 +70,7 @@ def product_list(request, slug=None):
         'sort': sort,
     })
 
-@login_required
+@staff_member_required(login_url='login')
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -81,7 +81,7 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'products/product_form.html', {'form': form, 'title': 'Add product'})
-@login_required
+@staff_member_required(login_url='login')
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
@@ -95,7 +95,7 @@ def edit_product(request, product_id):
     return render(request, 'products/product_form.html', {'form': form, 'title': 'Edit product'})
 
 
-@login_required
+@staff_member_required(login_url='login')
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':

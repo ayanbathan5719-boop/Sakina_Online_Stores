@@ -50,6 +50,7 @@
         <div class="header-actions">
             {% if user.is_authenticated %}
                 <span class="nav-user">Hello, {{ user.username }}</span>
+                <a href="{% url 'order_list' %}">My orders</a>
                 <form method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn-outline">Log out</button>

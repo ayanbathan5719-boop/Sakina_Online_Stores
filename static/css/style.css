@@ -359,6 +359,8 @@ form p { margin: 0 0 14px; }
 .message.error { border-left-color: #b3483f; background: #fbeeee; }
 .manage { margin-top: 16px; font-size: 0.9rem; }
 
+.note { font-size: 0.85rem; color: var(--gold); }
+
 @media (prefers-reduced-motion: reduce) {
     .slide { transition: none; }
 }

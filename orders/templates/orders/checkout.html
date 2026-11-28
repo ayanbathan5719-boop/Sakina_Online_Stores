@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-title"><h2>Checkout</h2></div>
+    <div class="cart-layout">
+        <div class="panel">
+            <h3>Delivery details</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Place order</button>
+            </form>
+        </div>
+        <aside class="panel panel-ivory">
+            <h3>Your order</h3>
+            {% for i in items %}
+                <div class="summary-row"><span>{{ i.product.name }} x {{ i.quantity }}</span><span>KES {{ i.subtotal }}</span></div>
+            {% endfor %}
+            <div class="summary-row total"><span>Total</span><span>KES {{ total }}</span></div>
+            <p class="note">Payment on delivery.</p>
+        </aside>
+    </div>
+{% endblock %}

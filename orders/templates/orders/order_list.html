@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-title"><h2>My orders</h2></div>
+    {% if orders %}
+        <div class="panel">
+            <table class="cart-table">
+                <thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th></tr></thead>
+                <tbody>
+                    {% for o in orders %}
+                        <tr>
+                            <td><a href="{% url 'order_detail' o.id %}">#{{ o.id }}</a></td>
+                            <td>{{ o.created_at|date:"j M Y" }}</td>
+                            <td>{{ o.get_status_display }}</td>
+                            <td>KES {{ o.total }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="panel">
+            <p>You have no orders yet.</p>
+            <a class="btn" href="{% url 'product_list' %}">Start shopping</a>
+        </div>
+    {% endif %}
+{% endblock %}

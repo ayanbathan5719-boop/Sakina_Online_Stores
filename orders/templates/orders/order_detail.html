@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-title"><h2>Order #{{ order.id }}</h2></div>
+    <div class="cart-layout">
+        <div class="panel">
+            <table class="cart-table">
+                <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>KES {{ item.price }}</td>
+                            <td>KES {{ item.subtotal }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p class="total">Total: KES {{ order.total }}</p>
+        </div>
+        <aside class="panel panel-ivory">
+            <h3>Delivery</h3>
+            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+            <p>{{ order.full_name }}<br>{{ order.phone }}<br>{{ order.address|linebreaksbr }}</p>
+            <p class="note">Placed {{ order.created_at|date:"j M Y, H:i" }}</p>
+        </aside>
+    </div>
+{% endblock %}
