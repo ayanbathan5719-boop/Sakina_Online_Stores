@@ -12,7 +12,11 @@
     </p>
 
     <div class="detail">
-        <div class="detail-img">{{ product.name|first|upper }}</div>
+        {% if product.image %}
+    <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+    <div class="product-img placeholder"></div>
+{% endif %}
         <div>
             <h2>{{ product.name }}</h2>
             <p class="price detail-price">KES {{ product.price }}</p>
@@ -43,3 +47,9 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{% if product.image %}
+    <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+    <div class="product-img placeholder"></div>
+{% endif %}
